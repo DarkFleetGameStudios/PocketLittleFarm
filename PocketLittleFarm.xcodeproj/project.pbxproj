@@ -1,0 +1,554 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		079B2D84BF0941ADCF9E1806 /* GameStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B286F97C18C6351064265DF1 /* GameStore.swift */; };
+		152AC6261945C26CC4AFB894 /* FarmView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5EC603D5418966E87B5BCC4 /* FarmView.swift */; };
+		2FDA00841768BC2882B45365 /* ShopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8555E9AFBA7A39D641E78447 /* ShopView.swift */; };
+		318DD14762EE11D7C9588FF6 /* FarmSimulatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C41EA4B493D5633BB04520B /* FarmSimulatorTests.swift */; };
+		35889C614654BBB0E4C98763 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 113A4C153BCF68736B4ED8BE /* Assets.xcassets */; };
+		3BFF9D6112FE84CF9759867B /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBDFC78AF01CEC7A289EC7AF /* SettingsView.swift */; };
+		3C73AE2A97319F80F8C749CA /* PaperTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2150BA8A47BF1F19A5F7FFA /* PaperTheme.swift */; };
+		3E7E286185447D79822F3383 /* PocketLittleFarmApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1E1F18C4BC10BE8807855CE /* PocketLittleFarmApp.swift */; };
+		624CAD55F92ADD7CA2427AC8 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A98B2285A7F8716DEE856FB /* ContentView.swift */; };
+		763F220750C993AF75C9362F /* PaperMaterials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 553096BC672A4E2DB333588D /* PaperMaterials.swift */; };
+		8134EE3D73C8DC13A458F4C5 /* SaveStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06D2926F93EB1FEF2BD3931 /* SaveStore.swift */; };
+		8CA847FC8BDDE198DFACB892 /* FarmBalance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E79787788C950EFD8F2AF64 /* FarmBalance.swift */; };
+		A5020C76A4BFF2219B3138AE /* AlmanacView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38A1A6351A459EC4952884D6 /* AlmanacView.swift */; };
+		AF27C4774B85735151136C0F /* InventoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D297BA77574193A4F04531 /* InventoryView.swift */; };
+		B62226639C1A7405EF7B4B4A /* ItemCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7014A08B552824E8B2025CA0 /* ItemCatalog.swift */; };
+		C3ED84553DA55AA1D99BA4A8 /* FarmScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC241609B8E6A12465B737D3 /* FarmScene.swift */; };
+		C7C9616A789CF4A3E9F6CC78 /* SaveGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 767ADC357C1AB2153DBBED99 /* SaveGame.swift */; };
+		D5E38918798A6D5BDF2D8AFA /* FarmSimulator.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA44D23160C571078B2877BD /* FarmSimulator.swift */; };
+		EF1877A015713EC6EE82576A /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B88CF43C82B6ACDF23CF07F8 /* OnboardingView.swift */; };
+		F0989CFE13FBF3DA8F4AFBB7 /* CropDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77C804B47239538D386DC77E /* CropDefinition.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		CBA363C50D6F17532489E9AF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A522CAC56EB9C6AECF7A8197 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 10E857385F1FF736A607F9FC;
+			remoteInfo = PocketLittleFarm;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		0E79787788C950EFD8F2AF64 /* FarmBalance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FarmBalance.swift; sourceTree = "<group>"; };
+		113A4C153BCF68736B4ED8BE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		38A1A6351A459EC4952884D6 /* AlmanacView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlmanacView.swift; sourceTree = "<group>"; };
+		42D297BA77574193A4F04531 /* InventoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InventoryView.swift; sourceTree = "<group>"; };
+		553096BC672A4E2DB333588D /* PaperMaterials.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaperMaterials.swift; sourceTree = "<group>"; };
+		5A98B2285A7F8716DEE856FB /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		5C41EA4B493D5633BB04520B /* FarmSimulatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FarmSimulatorTests.swift; sourceTree = "<group>"; };
+		5E87CFF2E3D0417A8840CBD2 /* PocketLittleFarm.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = PocketLittleFarm.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		7014A08B552824E8B2025CA0 /* ItemCatalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemCatalog.swift; sourceTree = "<group>"; };
+		724DD46C4028FA8B212942BE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		767ADC357C1AB2153DBBED99 /* SaveGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveGame.swift; sourceTree = "<group>"; };
+		77C804B47239538D386DC77E /* CropDefinition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CropDefinition.swift; sourceTree = "<group>"; };
+		7B0C00E89B92F17290788721 /* PocketLittleFarmTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = PocketLittleFarmTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		8555E9AFBA7A39D641E78447 /* ShopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopView.swift; sourceTree = "<group>"; };
+		B286F97C18C6351064265DF1 /* GameStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameStore.swift; sourceTree = "<group>"; };
+		B88CF43C82B6ACDF23CF07F8 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
+		CBDFC78AF01CEC7A289EC7AF /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		D06D2926F93EB1FEF2BD3931 /* SaveStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveStore.swift; sourceTree = "<group>"; };
+		D2150BA8A47BF1F19A5F7FFA /* PaperTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaperTheme.swift; sourceTree = "<group>"; };
+		D5EC603D5418966E87B5BCC4 /* FarmView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FarmView.swift; sourceTree = "<group>"; };
+		EA44D23160C571078B2877BD /* FarmSimulator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FarmSimulator.swift; sourceTree = "<group>"; };
+		EC241609B8E6A12465B737D3 /* FarmScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FarmScene.swift; sourceTree = "<group>"; };
+		F1E1F18C4BC10BE8807855CE /* PocketLittleFarmApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PocketLittleFarmApp.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		1B475171EAF7382CEF13197D /* PocketLittleFarmTests */ = {
+			isa = PBXGroup;
+			children = (
+				5C41EA4B493D5633BB04520B /* FarmSimulatorTests.swift */,
+			);
+			path = PocketLittleFarmTests;
+			sourceTree = "<group>";
+		};
+		4BF7AD769A516F5BFA6B75DA /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				38A1A6351A459EC4952884D6 /* AlmanacView.swift */,
+				5A98B2285A7F8716DEE856FB /* ContentView.swift */,
+				42D297BA77574193A4F04531 /* InventoryView.swift */,
+				B88CF43C82B6ACDF23CF07F8 /* OnboardingView.swift */,
+				D2150BA8A47BF1F19A5F7FFA /* PaperTheme.swift */,
+				CBDFC78AF01CEC7A289EC7AF /* SettingsView.swift */,
+				8555E9AFBA7A39D641E78447 /* ShopView.swift */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		51F748933CB587AA857F9C94 /* Farm */ = {
+			isa = PBXGroup;
+			children = (
+				EC241609B8E6A12465B737D3 /* FarmScene.swift */,
+				D5EC603D5418966E87B5BCC4 /* FarmView.swift */,
+				553096BC672A4E2DB333588D /* PaperMaterials.swift */,
+			);
+			path = Farm;
+			sourceTree = "<group>";
+		};
+		7EBA5915A6846AED178ADF17 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				77C804B47239538D386DC77E /* CropDefinition.swift */,
+				0E79787788C950EFD8F2AF64 /* FarmBalance.swift */,
+				7014A08B552824E8B2025CA0 /* ItemCatalog.swift */,
+				767ADC357C1AB2153DBBED99 /* SaveGame.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		8440BD9E9679FC17B94325C6 = {
+			isa = PBXGroup;
+			children = (
+				F11C50C1A2EB7E1CFEE51E0C /* PocketLittleFarm */,
+				1B475171EAF7382CEF13197D /* PocketLittleFarmTests */,
+				9C6F6F31E61F023D094579D9 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		8E91B3C42CFED0E6984C7A5F /* App */ = {
+			isa = PBXGroup;
+			children = (
+				B286F97C18C6351064265DF1 /* GameStore.swift */,
+				F1E1F18C4BC10BE8807855CE /* PocketLittleFarmApp.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		9C6F6F31E61F023D094579D9 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				5E87CFF2E3D0417A8840CBD2 /* PocketLittleFarm.app */,
+				7B0C00E89B92F17290788721 /* PocketLittleFarmTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		B26A51540D8244DC857C8762 /* Persistence */ = {
+			isa = PBXGroup;
+			children = (
+				D06D2926F93EB1FEF2BD3931 /* SaveStore.swift */,
+			);
+			path = Persistence;
+			sourceTree = "<group>";
+		};
+		D50894DAE8192464CD817B35 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				113A4C153BCF68736B4ED8BE /* Assets.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		D995FA855559FCBA18D58365 /* Simulation */ = {
+			isa = PBXGroup;
+			children = (
+				EA44D23160C571078B2877BD /* FarmSimulator.swift */,
+			);
+			path = Simulation;
+			sourceTree = "<group>";
+		};
+		F11C50C1A2EB7E1CFEE51E0C /* PocketLittleFarm */ = {
+			isa = PBXGroup;
+			children = (
+				724DD46C4028FA8B212942BE /* Info.plist */,
+				8E91B3C42CFED0E6984C7A5F /* App */,
+				51F748933CB587AA857F9C94 /* Farm */,
+				7EBA5915A6846AED178ADF17 /* Models */,
+				B26A51540D8244DC857C8762 /* Persistence */,
+				D50894DAE8192464CD817B35 /* Resources */,
+				D995FA855559FCBA18D58365 /* Simulation */,
+				4BF7AD769A516F5BFA6B75DA /* UI */,
+			);
+			path = PocketLittleFarm;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		10E857385F1FF736A607F9FC /* PocketLittleFarm */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2F45F4A0986BEEA3B4B0FA8D /* Build configuration list for PBXNativeTarget "PocketLittleFarm" */;
+			buildPhases = (
+				56A027602ED27926EF3D44ED /* Sources */,
+				42A730A21BB8F4E9275DE956 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = PocketLittleFarm;
+			packageProductDependencies = (
+			);
+			productName = PocketLittleFarm;
+			productReference = 5E87CFF2E3D0417A8840CBD2 /* PocketLittleFarm.app */;
+			productType = "com.apple.product-type.application";
+		};
+		CDBE8984B7CF8DBFA78E84AE /* PocketLittleFarmTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DE88DAFD2F27B7CB71918E93 /* Build configuration list for PBXNativeTarget "PocketLittleFarmTests" */;
+			buildPhases = (
+				363C419EE589BE34FA803EF3 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				46D46A9F427393A1F0ED9688 /* PBXTargetDependency */,
+			);
+			name = PocketLittleFarmTests;
+			packageProductDependencies = (
+			);
+			productName = PocketLittleFarmTests;
+			productReference = 7B0C00E89B92F17290788721 /* PocketLittleFarmTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		A522CAC56EB9C6AECF7A8197 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1500;
+				TargetAttributes = {
+					10E857385F1FF736A607F9FC = {
+						DevelopmentTeam = TMYF9PC8GV;
+						ProvisioningStyle = Automatic;
+					};
+					CDBE8984B7CF8DBFA78E84AE = {
+						DevelopmentTeam = TMYF9PC8GV;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = F32A7B76E0E81C44C71633AC /* Build configuration list for PBXProject "PocketLittleFarm" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 8440BD9E9679FC17B94325C6;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 9C6F6F31E61F023D094579D9 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				10E857385F1FF736A607F9FC /* PocketLittleFarm */,
+				CDBE8984B7CF8DBFA78E84AE /* PocketLittleFarmTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		42A730A21BB8F4E9275DE956 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				35889C614654BBB0E4C98763 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		363C419EE589BE34FA803EF3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				318DD14762EE11D7C9588FF6 /* FarmSimulatorTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		56A027602ED27926EF3D44ED /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A5020C76A4BFF2219B3138AE /* AlmanacView.swift in Sources */,
+				624CAD55F92ADD7CA2427AC8 /* ContentView.swift in Sources */,
+				F0989CFE13FBF3DA8F4AFBB7 /* CropDefinition.swift in Sources */,
+				8CA847FC8BDDE198DFACB892 /* FarmBalance.swift in Sources */,
+				C3ED84553DA55AA1D99BA4A8 /* FarmScene.swift in Sources */,
+				D5E38918798A6D5BDF2D8AFA /* FarmSimulator.swift in Sources */,
+				152AC6261945C26CC4AFB894 /* FarmView.swift in Sources */,
+				079B2D84BF0941ADCF9E1806 /* GameStore.swift in Sources */,
+				AF27C4774B85735151136C0F /* InventoryView.swift in Sources */,
+				B62226639C1A7405EF7B4B4A /* ItemCatalog.swift in Sources */,
+				EF1877A015713EC6EE82576A /* OnboardingView.swift in Sources */,
+				763F220750C993AF75C9362F /* PaperMaterials.swift in Sources */,
+				3C73AE2A97319F80F8C749CA /* PaperTheme.swift in Sources */,
+				3E7E286185447D79822F3383 /* PocketLittleFarmApp.swift in Sources */,
+				C7C9616A789CF4A3E9F6CC78 /* SaveGame.swift in Sources */,
+				8134EE3D73C8DC13A458F4C5 /* SaveStore.swift in Sources */,
+				3BFF9D6112FE84CF9759867B /* SettingsView.swift in Sources */,
+				2FDA00841768BC2882B45365 /* ShopView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		46D46A9F427393A1F0ED9688 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 10E857385F1FF736A607F9FC /* PocketLittleFarm */;
+			targetProxy = CBA363C50D6F17532489E9AF /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		2DB007BEAEB4421034DFF5A6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = TMYF9PC8GV;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Pocket Little Farm";
+				INFOPLIST_KEY_LSRequiresIPhoneOS = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 0.1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.9;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		39AB2E124EB572AB2365E647 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = TMYF9PC8GV;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Pocket Little Farm";
+				INFOPLIST_KEY_LSRequiresIPhoneOS = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 0.1.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.9;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		78647A44D78438D3199A8C5E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				ENABLE_TESTABILITY = YES;
+				INFOPLIST_FILE = PocketLittleFarm/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.pocketlittlefarm.app;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		7CE2F607304F81127024260C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				ENABLE_TESTABILITY = YES;
+				INFOPLIST_FILE = PocketLittleFarm/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.pocketlittlefarm.app;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		AD784A3FEFEB0CE45471A624 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.pocketlittlefarm.tests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PocketLittleFarm.app/PocketLittleFarm";
+			};
+			name = Release;
+		};
+		DB1054531F1D3C1B3B27CA0B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.pocketlittlefarm.tests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PocketLittleFarm.app/PocketLittleFarm";
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		2F45F4A0986BEEA3B4B0FA8D /* Build configuration list for PBXNativeTarget "PocketLittleFarm" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7CE2F607304F81127024260C /* Debug */,
+				78647A44D78438D3199A8C5E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		DE88DAFD2F27B7CB71918E93 /* Build configuration list for PBXNativeTarget "PocketLittleFarmTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DB1054531F1D3C1B3B27CA0B /* Debug */,
+				AD784A3FEFEB0CE45471A624 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		F32A7B76E0E81C44C71633AC /* Build configuration list for PBXProject "PocketLittleFarm" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2DB007BEAEB4421034DFF5A6 /* Debug */,
+				39AB2E124EB572AB2365E647 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = A522CAC56EB9C6AECF7A8197 /* Project object */;
+}
