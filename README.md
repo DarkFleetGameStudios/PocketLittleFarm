@@ -5,6 +5,8 @@
 A little **paper scrapbook** farm that lives on your phone — check in for a minute or two, water, harvest, feed the hens, then go live your day. No account. No servers. No ads.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-cream.svg)](LICENSE)
+[![CI](https://github.com/DarkFleetGameStudios/PocketLittleFarm/actions/workflows/ci.yml/badge.svg)](https://github.com/DarkFleetGameStudios/PocketLittleFarm/actions/workflows/ci.yml)
+[![CodeQL](https://github.com/DarkFleetGameStudios/PocketLittleFarm/actions/workflows/codeql.yml/badge.svg)](https://github.com/DarkFleetGameStudios/PocketLittleFarm/actions/workflows/codeql.yml)
 [![Platform](https://img.shields.io/badge/platform-iOS%20%7C%20iPadOS-lightgrey)](#)
 [![Swift](https://img.shields.io/badge/Swift-5.9-orange)](#)
 
@@ -69,6 +71,18 @@ PocketLittleFarmTests/
 - **License:** [MIT](LICENSE) — free to use, modify, and ship (with attribution)  
 - **Org:** [Dark Fleet Game Studios](https://github.com/DarkFleetGameStudios)  
 - Issues and PRs welcome: balance tweaks, art, widgets, accessibility  
+
+### CI & security
+
+| Check | Purpose |
+|-------|---------|
+| **CI** | Build + unit tests on iOS Simulator (PRs & `main`) |
+| **CodeQL** | Static analysis (Swift + Actions) |
+| **OpenSSF Scorecard** | Supply-chain / repo hygiene score |
+| **Dependabot** | Weekly GitHub Actions updates |
+| **SECURITY.md** | How to report vulnerabilities privately |
+
+See [SECURITY.md](SECURITY.md) for private disclosure. Do not file public issues for security bugs.
 
 ### Ideas for contributors
 

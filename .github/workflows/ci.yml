@@ -1,0 +1,141 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-test:
+    name: Build & Test (iOS Simulator)
+    runs-on: macos-15
+    timeout-minutes: 45
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Show Xcode
+        run: |
+          echo "Available Xcodes:"
+          ls /Applications | grep -i xcode || true
+          # Prefer a numbered Xcode if present, else default
+          if [ -d /Applications/Xcode_16.4.app ]; then
+            sudo xcode-select -s /Applications/Xcode_16.4.app
+          elif [ -d /Applications/Xcode_16.3.app ]; then
+            sudo xcode-select -s /Applications/Xcode_16.3.app
+          elif [ -d /Applications/Xcode_16.2.app ]; then
+            sudo xcode-select -s /Applications/Xcode_16.2.app
+          elif [ -d /Applications/Xcode.app ]; then
+            sudo xcode-select -s /Applications/Xcode.app
+          fi
+          xcodebuild -version
+          xcrun simctl list devices available | head -40
+
+      - name: Pick iPhone simulator destination
+        id: sim
+        run: |
+          DEST=$(python3 <<'PY'
+          import json, subprocess, sys
+          raw = subprocess.check_output(["xcrun", "simctl", "list", "devices", "available", "-j"], text=True)
+          data = json.loads(raw)
+          # Prefer newer iOS runtimes, first available iPhone
+          items = []
+          for runtime, devices in data.get("devices", {}).items():
+              if "iOS" not in runtime and "iPhone" not in runtime:
+                  # runtime keys look like com.apple.CoreSimulator.SimRuntime.iOS-18-2
+                  pass
+              for dev in devices:
+                  if not dev.get("isAvailable", True):
+                      continue
+                  name = dev.get("name", "")
+                  if "iPhone" not in name:
+                      continue
+                  items.append((runtime, name, dev["udid"]))
+          if not items:
+              print("platform=iOS Simulator,name=iPhone 16")
+              sys.exit(0)
+          # Sort by runtime string descending (newer often sorts later)
+          items.sort(key=lambda t: t[0], reverse=True)
+          runtime, name, udid = items[0]
+          print(f"platform=iOS Simulator,id={udid}")
+          print(f"Selected {name} ({runtime})", file=sys.stderr)
+          PY
+          )
+          echo "destination=$DEST" >> "$GITHUB_OUTPUT"
+          echo "Using destination: $DEST"
+
+      - name: Build
+        run: |
+          set -o pipefail
+          xcodebuild \
+            -scheme PocketLittleFarm \
+            -project PocketLittleFarm.xcodeproj \
+            -destination "${{ steps.sim.outputs.destination }}" \
+            -configuration Debug \
+            CODE_SIGNING_ALLOWED=NO \
+            build
+
+      - name: Test
+        run: |
+          set -o pipefail
+          xcodebuild \
+            -scheme PocketLittleFarm \
+            -project PocketLittleFarm.xcodeproj \
+            -destination "${{ steps.sim.outputs.destination }}" \
+            -configuration Debug \
+            CODE_SIGNING_ALLOWED=NO \
+            -resultBundlePath TestResults.xcresult \
+            test
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: xcresult
+          path: TestResults.xcresult
+          if-no-files-found: ignore
+          retention-days: 14
+
+  lint-project:
+    name: Project hygiene
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: No secrets in tree
+        run: |
+          set -euo pipefail
+          # Fail if common secret patterns appear in source (not a full scanner)
+          if grep -RInE \
+            --exclude-dir=.git \
+            --exclude-dir=.github \
+            --exclude='*.md' \
+            -e 'AKIA[0-9A-Z]{16}' \
+            -e '-----BEGIN (RSA |OPENSSH |EC )?PRIVATE KEY-----' \
+            -e 'ghp_[A-Za-z0-9]{36}' \
+            -e 'gho_[A-Za-z0-9]{36}' \
+            -e 'xox[baprs]-[0-9A-Za-z-]{10,}' \
+            . ; then
+            echo "::error::Possible secret material found in repository"
+            exit 1
+          fi
+          echo "No obvious secret patterns found."
+
+      - name: Required files present
+        run: |
+          test -f LICENSE
+          test -f README.md
+          test -f SECURITY.md
+          test -f PocketLittleFarm.xcodeproj/project.pbxproj
+          test -f project.yml
