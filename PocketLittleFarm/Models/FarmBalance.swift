@@ -5,6 +5,12 @@ enum FarmBalance {
     /// Max simulated offline gap so extreme absences don't explode edge cases.
     static let maxSimDelta: TimeInterval = 30 * 24 * 60 * 60
 
+    // Ripe crops hold, then go past-prime, then compost — as multiples of grow time.
+    /// A ripe crop stays full-quality for this × its grow time before going past-prime.
+    static let overRipeFactor: Double = 2
+    /// A ripe crop finally composts after this × its grow time. Generous: collect, don't rush.
+    static let pastPrimeToCompostFactor: Double = 4
+
     // Chickens
     static let feedInterval: TimeInterval = 8 * 60 * 60
     static let hungryGrace: TimeInterval = 4 * 60 * 60

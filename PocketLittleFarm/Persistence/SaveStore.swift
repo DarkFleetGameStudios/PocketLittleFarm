@@ -31,16 +31,35 @@ enum SaveStore {
         }
         do {
             let data = try Data(contentsOf: url)
-            var save = try decoder.decode(SaveGame.self, from: data)
-            if save.version < SaveGame.currentVersion {
-                save.version = SaveGame.currentVersion
-                // Older saves may lack economy fields; decoding uses defaults via optional/missing keys.
-            }
+            let decoded = try decoder.decode(SaveGame.self, from: data)
+            let migrated = migrate(decoded)
             // Always run sim so daily stipend / bailout can unstick a dead farm on launch.
-            return FarmSimulator.advance(save: save, to: now)
+            return FarmSimulator.advance(save: migrated, to: now)
         } catch {
+            // Never silently wipe: preserve the unreadable file so nothing is lost and it can
+            // be inspected, then start fresh. Tolerant decoding (SaveGame.init(from:)) means we
+            // only land here on genuine corruption, not on a missing/added field.
+            quarantine(url)
             return .fresh(now: now)
         }
+    }
+
+    /// Bring an older save up to the current schema. Field defaults are supplied by
+    /// `SaveGame.init(from:)`; this is where any value-transforming migration steps live.
+    private static func migrate(_ save: SaveGame) -> SaveGame {
+        guard save.version < SaveGame.currentVersion else { return save }
+        var s = save
+        // (No value transforms needed yet — tolerant decoding fills new fields with defaults.)
+        s.version = SaveGame.currentVersion
+        return s
+    }
+
+    private static func quarantine(_ url: URL) {
+        guard FileManager.default.fileExists(atPath: url.path) else { return }
+        let stamp = Int(Date().timeIntervalSince1970)
+        let dead = url.deletingLastPathComponent()
+            .appendingPathComponent("savegame.corrupt-\(stamp).json")
+        try? FileManager.default.moveItem(at: url, to: dead)
     }
 
     static func save(_ game: SaveGame) throws {
@@ -49,6 +68,11 @@ enum SaveStore {
         let temp = url.appendingPathExtension("tmp")
         try data.write(to: temp, options: .atomic)
         if FileManager.default.fileExists(atPath: url.path) {
+            // Keep the last good save as a backup before replacing — cheap insurance against a
+            // bad write or a future decode bug.
+            let backup = url.deletingLastPathComponent().appendingPathComponent("savegame.bak")
+            try? FileManager.default.removeItem(at: backup)
+            try? FileManager.default.copyItem(at: url, to: backup)
             _ = try FileManager.default.replaceItemAt(url, withItemAt: temp)
         } else {
             try FileManager.default.moveItem(at: temp, to: url)

@@ -74,78 +74,64 @@ enum FarmSimulator {
             return p
         }
 
-        var remaining = delta
-        // Step in small chunks so water/wilt thresholds are respected without full event queue.
-        // For mobile offline, single-pass piecewise is enough.
         switch p.phase {
         case .empty, .lost:
             return p
-        case .ripe:
-            return p
-        case .growing:
-            applyGrowing(&p, crop: crop, delta: &remaining)
-        case .thirsty:
-            applyThirsty(&p, crop: crop, delta: &remaining)
-        case .wilted:
-            applyWilted(&p, crop: crop, delta: &remaining)
+        case .growing, .thirsty:
+            advanceGrowth(&p, crop: crop, delta: delta)
+        case .ripe, .wilted:
+            advanceRipe(&p, crop: crop, delta: delta)
         }
         return p
     }
 
-    private static func applyGrowing(_ p: inout PlotState, crop: CropDefinition, delta: inout TimeInterval) {
-        // Split: time until thirsty vs grow progress
-        let untilThirsty = max(0, crop.waterEvery - p.sinceWatered)
-        if delta <= untilThirsty {
-            p.sinceWatered += delta
-            p.growProgress += delta
-            delta = 0
-            if p.growProgress >= crop.growDuration {
-                p.phase = .ripe
-                p.growProgress = crop.growDuration
-            }
-            return
-        }
+    /// Growth always completes — neglect only costs yield, never the crop. Grow-time spent dry
+    /// (past `waterEvery` since the last drink) accrues into `dryTime`, which lowers the harvest.
+    private static func advanceGrowth(_ p: inout PlotState, crop: CropDefinition, delta: TimeInterval) {
+        let growLeft = max(0, crop.growDuration - p.growProgress)
+        let grown = min(delta, growLeft)
 
-        // Grow until thirsty threshold
-        p.growProgress += untilThirsty
-        p.sinceWatered = crop.waterEvery
-        delta -= untilThirsty
+        // Dry portion of this step = overlap of [sinceWatered, sinceWatered+grown) with
+        // [waterEvery, ∞): the stretch where the plot was past due for a drink.
+        let sBefore = p.sinceWatered
+        let sAfter = sBefore + grown
+        p.dryTime += max(0, sAfter - max(sBefore, crop.waterEvery))
+        p.growProgress += grown
+        p.sinceWatered = sAfter
+
         if p.growProgress >= crop.growDuration {
-            p.phase = .ripe
             p.growProgress = crop.growDuration
-            delta = 0
-            return
+            p.phase = .ripe
+            p.ripeAge = 0
+            let leftover = delta - grown
+            if leftover > 0 { advanceRipe(&p, crop: crop, delta: leftover) }
+        } else {
+            // Thirsty is advisory now ("wants water for best yield"), not a countdown to death.
+            p.phase = (p.sinceWatered >= crop.waterEvery) ? .thirsty : .growing
         }
-        p.phase = .thirsty
-        p.thirstyAccumulated = 0
-        applyThirsty(&p, crop: crop, delta: &delta)
     }
 
-    private static func applyThirsty(_ p: inout PlotState, crop: CropDefinition, delta: inout TimeInterval) {
-        // Growth paused while thirsty
-        let untilWilt = max(0, crop.thirstGrace - p.thirstyAccumulated)
-        if delta <= untilWilt {
-            p.thirstyAccumulated += delta
-            delta = 0
-            return
+    /// Ripe crops hold at full quality for a generous window, then go past-prime (reduced
+    /// yield), then finally compost. Returning is a collection, not a rescue.
+    private static func advanceRipe(_ p: inout PlotState, crop: CropDefinition, delta: TimeInterval) {
+        p.ripeAge += delta
+        let primeWindow = crop.growDuration * FarmBalance.overRipeFactor
+        let compostWindow = crop.growDuration * FarmBalance.pastPrimeToCompostFactor
+        if p.ripeAge >= compostWindow {
+            p.phase = .lost
+        } else if p.ripeAge >= primeWindow {
+            p.phase = .wilted
+        } else {
+            p.phase = .ripe
         }
-        p.thirstyAccumulated = crop.thirstGrace
-        delta -= untilWilt
-        p.phase = .wilted
-        p.wiltedAccumulated = 0
-        applyWilted(&p, crop: crop, delta: &delta)
     }
 
-    private static func applyWilted(_ p: inout PlotState, crop: CropDefinition, delta: inout TimeInterval) {
-        let untilLost = max(0, crop.wiltToLost - p.wiltedAccumulated)
-        if delta <= untilLost {
-            p.wiltedAccumulated += delta
-            delta = 0
-            return
-        }
-        p.wiltedAccumulated = crop.wiltToLost
-        delta = 0
-        p.phase = .lost
+    /// Harvest care factor: scales with how watered the crop was during growth, floored at half.
+    /// Fully watered → 1.0; never watered → ~0.5. Watering is a yield dial, not survival.
+    static func careYieldFactor(_ p: PlotState, crop: CropDefinition) -> Double {
+        guard crop.growDuration > 0 else { return 1 }
+        let wateredFraction = min(1, max(0, (crop.growDuration - p.dryTime) / crop.growDuration))
+        return 0.5 + 0.5 * wateredFraction
     }
 
     private static func advanceAnimal(_ animal: AnimalState, delta: TimeInterval) -> AnimalState {
@@ -214,9 +200,9 @@ enum FarmSimulator {
         plot.phase = .growing
         plot.cropId = crop.id
         plot.growProgress = 0
-        plot.thirstyAccumulated = 0
-        plot.wiltedAccumulated = 0
+        plot.dryTime = 0
         plot.sinceWatered = 0
+        plot.ripeAge = 0
         plot.plantedAt = now
         plot.lastWateredAt = now
         state.plots[idx] = plot
@@ -235,22 +221,12 @@ enum FarmSimulator {
         }
 
         switch plot.phase {
-        case .growing:
+        case .growing, .thirsty:
+            // Watering tops up the yield meter and clears the advisory thirsty state.
             plot.sinceWatered = 0
-            plot.lastWateredAt = now
-        case .thirsty:
             plot.phase = .growing
-            plot.sinceWatered = 0
-            plot.thirstyAccumulated = 0
             plot.lastWateredAt = now
-        case .wilted:
-            // Revive once: back to growing, keep partial progress, clear wilt counters
-            plot.phase = .growing
-            plot.sinceWatered = 0
-            plot.thirstyAccumulated = 0
-            plot.wiltedAccumulated = 0
-            plot.lastWateredAt = now
-        case .ripe:
+        case .ripe, .wilted:
             return (state, "Already ripe — harvest instead.")
         case .empty, .lost:
             return (state, "Nothing to water.")
@@ -280,8 +256,9 @@ enum FarmSimulator {
             return (state, "Not ready to harvest.")
         }
 
-        let factor = plot.phase == .wilted ? crop.wiltedYieldFactor : 1.0
-        let amount = max(1, Int((Double(crop.harvestYield) * factor).rounded()))
+        let care = careYieldFactor(plot, crop: crop)
+        let pastPrime = plot.phase == .wilted ? crop.wiltedYieldFactor : 1.0
+        let amount = max(1, Int((Double(crop.harvestYield) * care * pastPrime).rounded()))
         state.addItem(crop.harvestItemId, count: amount, at: now)
         plot.clearToEmpty()
         state.plots[idx] = plot

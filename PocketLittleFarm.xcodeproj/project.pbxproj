@@ -47,7 +47,7 @@
 		553096BC672A4E2DB333588D /* PaperMaterials.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaperMaterials.swift; sourceTree = "<group>"; };
 		5A98B2285A7F8716DEE856FB /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		5C41EA4B493D5633BB04520B /* FarmSimulatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FarmSimulatorTests.swift; sourceTree = "<group>"; };
-		5E87CFF2E3D0417A8840CBD2 /* PocketLittleFarm.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = PocketLittleFarm.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		5E87CFF2E3D0417A8840CBD2 /* PocketLittleFarm.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PocketLittleFarm.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7014A08B552824E8B2025CA0 /* ItemCatalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemCatalog.swift; sourceTree = "<group>"; };
 		724DD46C4028FA8B212942BE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		767ADC357C1AB2153DBBED99 /* SaveGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveGame.swift; sourceTree = "<group>"; };
@@ -224,7 +224,6 @@
 				LastUpgradeCheck = 1500;
 				TargetAttributes = {
 					10E857385F1FF736A607F9FC = {
-						DevelopmentTeam = TMYF9PC8GV;
 						ProvisioningStyle = Automatic;
 					};
 					CDBE8984B7CF8DBFA78E84AE = {
@@ -455,6 +454,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = TMYF9PC8GV;
 				ENABLE_TESTABILITY = YES;
 				INFOPLIST_FILE = PocketLittleFarm/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -472,6 +472,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = TMYF9PC8GV;
 				ENABLE_TESTABILITY = YES;
 				INFOPLIST_FILE = PocketLittleFarm/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (

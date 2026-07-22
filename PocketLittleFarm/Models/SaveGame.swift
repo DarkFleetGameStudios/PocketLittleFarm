@@ -15,14 +15,14 @@ struct PlotState: Codable, Hashable, Identifiable, Sendable {
     var col: Int
     var phase: PlotPhase
     var cropId: String?
-    /// Accumulated effective grow time (pauses while thirsty/wilted).
+    /// Accumulated grow time toward ripe. Growth never pauses in v2 — neglect can't kill it.
     var growProgress: TimeInterval
-    /// Time spent in thirsty phase (toward wilt).
-    var thirstyAccumulated: TimeInterval
-    /// Time spent wilted (toward lost).
-    var wiltedAccumulated: TimeInterval
-    /// Time since last watering (while growing).
+    /// Grow-time spent dry (past `waterEvery` since last drink). Lowers yield, never kills.
+    var dryTime: TimeInterval
+    /// Time since last watering. Drives the advisory thirsty state and dry-time accrual.
     var sinceWatered: TimeInterval
+    /// Time spent ripe (toward past-prime, then compost). Generous — "collect", not "rescue".
+    var ripeAge: TimeInterval
     var plantedAt: Date?
     var lastWateredAt: Date?
 
@@ -34,9 +34,9 @@ struct PlotState: Codable, Hashable, Identifiable, Sendable {
             phase: .empty,
             cropId: nil,
             growProgress: 0,
-            thirstyAccumulated: 0,
-            wiltedAccumulated: 0,
+            dryTime: 0,
             sinceWatered: 0,
+            ripeAge: 0,
             plantedAt: nil,
             lastWateredAt: nil
         )
@@ -46,11 +46,35 @@ struct PlotState: Codable, Hashable, Identifiable, Sendable {
         phase = .empty
         cropId = nil
         growProgress = 0
-        thirstyAccumulated = 0
-        wiltedAccumulated = 0
+        dryTime = 0
         sinceWatered = 0
+        ripeAge = 0
         plantedAt = nil
         lastWateredAt = nil
+    }
+}
+
+extension PlotState {
+    // Tolerant decoding: older saves (pre-v2, missing dryTime/ripeAge) and any future field
+    // must never throw — a thrown decode wipes the whole farm. Living in an extension keeps
+    // the memberwise initializer synthesized. Encoding stays auto-synthesized via CodingKeys.
+    enum CodingKeys: String, CodingKey {
+        case id, row, col, phase, cropId, growProgress, dryTime, sinceWatered, ripeAge, plantedAt, lastWateredAt
+    }
+
+    init(from decoder: Decoder) throws {
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+        id = try c.decode(Int.self, forKey: .id)
+        row = try c.decodeIfPresent(Int.self, forKey: .row) ?? 0
+        col = try c.decodeIfPresent(Int.self, forKey: .col) ?? 0
+        phase = try c.decodeIfPresent(PlotPhase.self, forKey: .phase) ?? .empty
+        cropId = try c.decodeIfPresent(String.self, forKey: .cropId)
+        growProgress = try c.decodeIfPresent(TimeInterval.self, forKey: .growProgress) ?? 0
+        dryTime = try c.decodeIfPresent(TimeInterval.self, forKey: .dryTime) ?? 0
+        sinceWatered = try c.decodeIfPresent(TimeInterval.self, forKey: .sinceWatered) ?? 0
+        ripeAge = try c.decodeIfPresent(TimeInterval.self, forKey: .ripeAge) ?? 0
+        plantedAt = try c.decodeIfPresent(Date.self, forKey: .plantedAt)
+        lastWateredAt = try c.decodeIfPresent(Date.self, forKey: .lastWateredAt)
     }
 }
 
@@ -142,7 +166,7 @@ struct SaveGame: Codable, Sendable {
     static let gridCols = 6
     static let currentVersion = 2
 
-    static func fresh(now: Date = Date()) -> SaveGame {
+    static func freshPlots() -> [PlotState] {
         var plots: [PlotState] = []
         var id = 0
         for r in 0..<gridRows {
@@ -151,6 +175,11 @@ struct SaveGame: Codable, Sendable {
                 id += 1
             }
         }
+        return plots
+    }
+
+    static func fresh(now: Date = Date()) -> SaveGame {
+        let plots = freshPlots()
         return SaveGame(
             version: currentVersion,
             lastSimulatedAt: now,
@@ -199,7 +228,16 @@ struct SaveGame: Codable, Sendable {
     mutating func addItem(_ itemId: String, count: Int, at date: Date) {
         guard count > 0 else { return }
         if let idx = inventory.firstIndex(where: { $0.itemId == itemId }) {
-            inventory[idx].count += count
+            // Blend acquire times by quantity so a fresh batch isn't destroyed by old
+            // stack-mates (and old items aren't kept alive forever by fresh ones). Without
+            // this, spoilInventory drops the whole stack on the oldest member's age.
+            let existing = inventory[idx]
+            let total = existing.count + count
+            let existingRef = existing.acquiredAt.timeIntervalSinceReferenceDate
+            let newRef = date.timeIntervalSinceReferenceDate
+            let blended = (existingRef * Double(existing.count) + newRef * Double(count)) / Double(total)
+            inventory[idx].count = total
+            inventory[idx].acquiredAt = Date(timeIntervalSinceReferenceDate: blended)
         } else {
             inventory.append(InventoryStack(itemId: itemId, count: count, acquiredAt: date))
         }
@@ -220,5 +258,36 @@ struct SaveGame: Codable, Sendable {
         let thirstyPlots = plots.filter { $0.phase == .thirsty || $0.phase == .wilted || $0.phase == .ripe }.count
         let hungryAnimals = animals.filter { $0.mood != .content || $0.pendingProduce > 0 }.count
         return thirstyPlots + hungryAnimals
+    }
+}
+
+extension SaveGame {
+    // Tolerant decoding is the core of save-safety: a save that predates any field — or a
+    // future field — must decode with a sensible default instead of throwing, because a
+    // thrown decode makes SaveStore fall back to .fresh() and silently wipe the farm.
+    // In an extension so the memberwise initializer (used by fresh()) stays synthesized.
+    enum CodingKeys: String, CodingKey {
+        case version, lastSimulatedAt, coins, inventory, plots, animals, decorations,
+             unlockedCropIds, selectedSeedItemId, careStreakDays, lastCareDayKey,
+             lastDailyGrantDayKey, settings, hasCompletedOnboarding, pendingToast
+    }
+
+    init(from decoder: Decoder) throws {
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+        version = try c.decodeIfPresent(Int.self, forKey: .version) ?? SaveGame.currentVersion
+        lastSimulatedAt = try c.decodeIfPresent(Date.self, forKey: .lastSimulatedAt) ?? Date()
+        coins = try c.decodeIfPresent(Int.self, forKey: .coins) ?? 0
+        inventory = try c.decodeIfPresent([InventoryStack].self, forKey: .inventory) ?? []
+        plots = try c.decodeIfPresent([PlotState].self, forKey: .plots) ?? SaveGame.freshPlots()
+        animals = try c.decodeIfPresent([AnimalState].self, forKey: .animals) ?? AnimalState.starterChickens()
+        decorations = try c.decodeIfPresent([PlacedDecoration].self, forKey: .decorations) ?? []
+        unlockedCropIds = try c.decodeIfPresent([String].self, forKey: .unlockedCropIds) ?? CropDefinition.all.map(\.id)
+        selectedSeedItemId = try c.decodeIfPresent(String.self, forKey: .selectedSeedItemId)
+        careStreakDays = try c.decodeIfPresent(Int.self, forKey: .careStreakDays) ?? 0
+        lastCareDayKey = try c.decodeIfPresent(String.self, forKey: .lastCareDayKey)
+        lastDailyGrantDayKey = try c.decodeIfPresent(String.self, forKey: .lastDailyGrantDayKey)
+        settings = try c.decodeIfPresent(PlayerSettings.self, forKey: .settings) ?? .default
+        hasCompletedOnboarding = try c.decodeIfPresent(Bool.self, forKey: .hasCompletedOnboarding) ?? false
+        pendingToast = try c.decodeIfPresent(String.self, forKey: .pendingToast)
     }
 }

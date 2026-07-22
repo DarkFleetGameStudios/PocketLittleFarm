@@ -7,10 +7,10 @@ struct AlmanacView: View {
         NavigationStack {
             List {
                 Section("How care works") {
-                    Text("Your farm keeps living while the app is closed. Growth uses real time. Miss watering long enough and crops get thirsty, then wilt, then may be lost. Animals need feed or they stop laying.")
+                    Text("Your farm keeps living while the app is closed. Growth uses real time, and crops always grow to ripe — neglect never kills them. Watering just sets the harvest: keep a plot watered for a full crop, skip it and still get about half. Animals need feed or they stop laying.")
                         .font(.subheadline)
                         .foregroundStyle(.secondary)
-                    Text("Sessions are meant to be short: peek, water, harvest, feed, close. Come back later.")
+                    Text("Ripe crops wait for you — pick them whenever. Left very long they go past-prime (smaller harvest) before finally composting. Sessions stay short: peek, water, harvest, feed, close.")
                         .font(.subheadline)
                         .foregroundStyle(.secondary)
                 }
@@ -28,9 +28,8 @@ struct AlmanacView: View {
                                 .font(.headline)
                             grid(
                                 ("Grow", format(crop.growDuration)),
-                                ("Water every", format(crop.waterEvery)),
-                                ("Thirst grace", format(crop.thirstGrace)),
-                                ("Wilt → lost", format(crop.wiltToLost)),
+                                ("Water for full yield", "every " + format(crop.waterEvery)),
+                                ("Harvest", "up to \(crop.harvestYield) (½ if unwatered)"),
                                 ("Seed", "\(crop.seedPrice)¢"),
                                 ("Sell", "\(crop.sellPrice)¢ each")
                             )

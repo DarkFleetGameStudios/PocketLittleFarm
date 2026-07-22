@@ -1,6 +1,12 @@
 import Foundation
 
 /// Static crop catalog. Timers are real-world durations for offline care.
+///
+/// Care model (v2 — FarmTown-solo): a planted crop **always** grows to ripe. Watering never
+/// keeps it alive — it only sets *yield*. `waterEvery` is how often watering tops up the yield
+/// meter; grow-time spent dry (past `waterEvery` since the last drink) reduces the final
+/// harvest, floored at half. Crop choice is the player's tempo: quick crops for active players,
+/// slow cash crops for once-a-day players.
 struct CropDefinition: Identifiable, Hashable, Sendable {
     let id: String
     let displayName: String
@@ -8,21 +14,18 @@ struct CropDefinition: Identifiable, Hashable, Sendable {
     let harvestItemId: String
     let seedPrice: Int
     let sellPrice: Int
-    /// Total grow time when watered on schedule.
+    /// Total grow time to ripe (real-world).
     let growDuration: TimeInterval
-    /// How often the plant needs water while growing.
+    /// How often watering tops up the yield meter. Being dry past this only lowers yield.
     let waterEvery: TimeInterval
-    /// Extra time after becoming thirsty before wilt.
-    let thirstGrace: TimeInterval
-    /// Extra time after wilt before the plant is lost.
-    let wiltToLost: TimeInterval
     let harvestYield: Int
-    /// Yield multiplier when harvested while wilted (revived path uses full after care).
+    /// Yield multiplier once a ripe crop goes past-prime (left too long after ripening).
     let wiltedYieldFactor: Double
 
     static let all: [CropDefinition] = [
-        // Economy: seed cost << harvest value so one good cycle restocks several seeds.
-        // Thirst windows are forgiving — Tamagotchi pressure without total wipeouts.
+        // Timers span "quick turn" to "daily cash crop" so the seed menu is the tempo dial.
+        // Short crops earn more per hour (reward active play); long crops earn less per hour
+        // but are set-and-forget (reward patience) — the FarmTown tradeoff.
         CropDefinition(
             id: "radish",
             displayName: "Radish",
@@ -30,10 +33,8 @@ struct CropDefinition: Identifiable, Hashable, Sendable {
             harvestItemId: "radish",
             seedPrice: 3,
             sellPrice: 14,
-            growDuration: 45 * 60,
-            waterEvery: 30 * 60,
-            thirstGrace: 45 * 60,
-            wiltToLost: 90 * 60,
+            growDuration: 2 * 60 * 60,
+            waterEvery: 60 * 60,
             harvestYield: 3,
             wiltedYieldFactor: 0.5
         ),
@@ -44,10 +45,8 @@ struct CropDefinition: Identifiable, Hashable, Sendable {
             harvestItemId: "lettuce",
             seedPrice: 5,
             sellPrice: 20,
-            growDuration: 2 * 60 * 60,
-            waterEvery: 60 * 60,
-            thirstGrace: 50 * 60,
-            wiltToLost: 2 * 60 * 60,
+            growDuration: 4 * 60 * 60,
+            waterEvery: 2 * 60 * 60,
             harvestYield: 3,
             wiltedYieldFactor: 0.5
         ),
@@ -58,10 +57,8 @@ struct CropDefinition: Identifiable, Hashable, Sendable {
             harvestItemId: "tomato",
             seedPrice: 8,
             sellPrice: 34,
-            growDuration: 4 * 60 * 60,
-            waterEvery: 2 * 60 * 60,
-            thirstGrace: 75 * 60,
-            wiltToLost: 3 * 60 * 60,
+            growDuration: 8 * 60 * 60,
+            waterEvery: 3 * 60 * 60,
             harvestYield: 3,
             wiltedYieldFactor: 0.5
         ),
@@ -72,11 +69,9 @@ struct CropDefinition: Identifiable, Hashable, Sendable {
             harvestItemId: "corn",
             seedPrice: 10,
             sellPrice: 42,
-            growDuration: 6 * 60 * 60,
-            waterEvery: 2.5 * 60 * 60,
-            thirstGrace: 90 * 60,
-            wiltToLost: 4 * 60 * 60,
-            harvestYield: 3,
+            growDuration: 12 * 60 * 60,
+            waterEvery: 4 * 60 * 60,
+            harvestYield: 4,
             wiltedYieldFactor: 0.5
         ),
         CropDefinition(
@@ -85,12 +80,10 @@ struct CropDefinition: Identifiable, Hashable, Sendable {
             seedItemId: "seed_pumpkin",
             harvestItemId: "pumpkin",
             seedPrice: 16,
-            sellPrice: 78,
-            growDuration: 14 * 60 * 60,
-            waterEvery: 5 * 60 * 60,
-            thirstGrace: 3 * 60 * 60,
-            wiltToLost: 6 * 60 * 60,
-            harvestYield: 1,
+            sellPrice: 130,
+            growDuration: 24 * 60 * 60,
+            waterEvery: 8 * 60 * 60,
+            harvestYield: 2,
             wiltedYieldFactor: 0.5
         ),
     ]

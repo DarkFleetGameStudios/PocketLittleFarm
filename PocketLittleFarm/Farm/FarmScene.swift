@@ -854,7 +854,7 @@ final class FarmScene: SKScene {
             text = "WATER"
             fill = PaperTheme.UI.chipThirst
         case .wilted:
-            text = "WILT"
+            text = "OLD"
             fill = PaperTheme.UI.chipWilt
         case .ripe:
             text = "RIPE"

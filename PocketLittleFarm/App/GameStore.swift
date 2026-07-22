@@ -195,16 +195,16 @@ final class GameStore: ObservableObject {
         case .growing:
             if let crop = plot.cropId.flatMap(CropDefinition.crop(id:)) {
                 let pct = Int((plot.growProgress / crop.growDuration) * 100)
-                presentToast("\(crop.displayName) growing — \(pct)%. Water every \(Int(crop.waterEvery / 60))m.")
+                presentToast("\(crop.displayName) growing — \(pct)%. Water for a fuller harvest.")
             }
         case .thirsty:
-            presentToast("Thirsty! Water soon or it will wilt.")
+            presentToast("Dry — water for the best harvest. It won't die.")
         case .wilted:
-            presentToast("Wilted. Water to revive (lower yield if you harvest now).")
+            presentToast("Past-prime — still good to harvest, just a smaller pick.")
         case .ripe:
-            presentToast("Ripe! Harvest mode to collect.")
+            presentToast("Ripe! Harvest whenever — it'll wait for you.")
         case .lost:
-            presentToast("Lost plant. Harvest/clear to free the plot.")
+            presentToast("Composted over. Harvest/clear to free the plot.")
         }
     }
 
